@@ -22,4 +22,23 @@ RSpec.describe Snack, type: :model do
       end
     end
   end
+
+  describe 'instance methods' do
+    describe '#snack_locations' do
+      it 'lists all locations with a vending machine that sells the snack' do
+        owner = Owner.create(name: "Sam's Snacks")
+        dons  = owner.machines.create(location: "Don's Mixed Drinks")
+        marks  = owner.machines.create(location: "Mark's Margs")
+        snack_1 = Snack.create(name: 'pretzels', price: 1)
+        snack_2 = Snack.create(name: 'brownie bites', price: 2)
+        snack_3 = Snack.create(name: 'mini donuts', price: 1)
+        dons.snacks << snack_1
+        dons.snacks << snack_2
+        dons.snacks << snack_3
+        marks.snacks << snack_1
+
+        expect(snack_1.snack_locations).to eq([dons.location, marks.location])
+      end
+    end
+  end
 end

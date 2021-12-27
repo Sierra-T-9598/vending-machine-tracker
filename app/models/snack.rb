@@ -6,4 +6,8 @@ class Snack < ApplicationRecord
   def self.average_price
     average(:price)
   end
+
+  def snack_locations
+    self.machines.pluck(:location)
+  end
 end
