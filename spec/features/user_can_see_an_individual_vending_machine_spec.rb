@@ -31,13 +31,17 @@ RSpec.describe 'When a user visits a vending machine show page', type: :feature 
   scenario 'they see the average price for all the snacks in that machine' do
     owner = Owner.create(name: "Sam's Snacks")
     dons  = owner.machines.create(location: "Don's Mixed Drinks")
-    snack_1 = dons.snacks.create(name: 'pretzels', price: "$0.99")
-    snack_2 = dons.snacks.create(name: 'brownie bites', price: "$1.99")
-    snack_3 = dons.snacks.create(name: 'mini donuts', price: "$1.99")
+    snack_1 = Snack.create(name: 'pretzels', price: 1)
+    snack_2 = Snack.create(name: 'brownie bites', price: 2)
+    snack_3 = Snack.create(name: 'mini donuts', price: 1)
+    dons.snacks << snack_1
+    dons.snacks << snack_2
+    dons.snacks << snack_3
 
     visit machine_path(dons)
 
-    expect(page).to have_content("Average Price: #{Snack.average_price}")
+    expect(page).to have_content("Average Price: $#{dons.average_price_of_snacks.round(2)}")
+    save_and_open_page
 
   end
 end
