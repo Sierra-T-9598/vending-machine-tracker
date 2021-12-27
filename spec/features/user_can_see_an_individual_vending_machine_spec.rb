@@ -41,7 +41,6 @@ RSpec.describe 'When a user visits a vending machine show page', type: :feature 
     visit machine_path(dons)
 
     expect(page).to have_content("Average Price: $#{dons.average_price_of_snacks.round(2)}")
-    save_and_open_page
 
   end
 end
